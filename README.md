@@ -26,7 +26,7 @@ User Need: Coach needs to know if athlete performed workout<br>
 Resolution: ETPG shows coach all workouts that have been or not been completed<br>
 
 User Need: Athlete needs to be able to give feedback<br>
-Resolution: ETPG allows athlete to rate a specific and/or weekly workout, stating how tired he was and how it felt<br?
+Resolution: ETPG allows athlete to rate a specific and/or weekly workout, stating how tired he was and how it felt<br>
 
 User Need: Coach needs feedback from athlete<br>
 Resolution: ETPG allows coach to read athlete's feedback for specific and/or weekly workouts<br>
