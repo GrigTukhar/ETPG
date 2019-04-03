@@ -45,3 +45,7 @@ Resolution: ETPG allows goal to be directly selected by athlete and checked if i
 
 User Need: Coach needs to know if goal is met by athlete<br>
 Resolution: ETPG allows coack to recieve athlete's input if the goal and date are met<br>
+
+USER STORY<br>
+-----------<br>
+
