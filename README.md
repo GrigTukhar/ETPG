@@ -49,3 +49,4 @@ Resolution: ETPG allows coack to recieve athlete's input if the goal and date ar
 USER STORY<br>
 -----------<br>
 
+As an athlete I can check out my workouts within my schedule. I can choose the specific week and day in my schedule to check if there are any workouts during 4 different time of days. These workouts are either predifined or custom (made by the coach).
