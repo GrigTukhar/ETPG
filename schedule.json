@@ -1,0 +1,25 @@
+import workout.json
+
+{
+ "schedule":{
+             "week1":{...},
+             "week2":{...},
+             "week3":{...},
+             "week4":{...},
+             "week5":{
+                      "day1":{...},
+                      "day2":{...},
+                      "day3":{...},
+                      "day4":{...},
+                      "day5":{...},
+                      "day6":{...},
+                      "day7":{
+                              "morning" : {"type":"run", "minutes":80, "kilometers":10},
+                              "lunch" : null,
+                              "day" : {"type":"swimming", "minutes":60, "kilometers":2},
+                              "evening" : ["workout1"]
+                              }
+                      }
+
+              }
+}
