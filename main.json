@@ -21,7 +21,7 @@
       "day6":{},
       "day7":{
         "morning" : {"type":"run", "minutes":80, "kilometers":10},
-        "lunch" : null,
+        "lunch" : -1,
         "day" : {"type":"swimming", "minutes":60, "kilometers":2},
         "evening" : {"workouts": {"workout1": {}}}
         }
