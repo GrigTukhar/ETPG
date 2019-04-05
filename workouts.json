@@ -1,9 +1,0 @@
-{
-"workouts":{
-            "workout1":{"type":"cycling", "minutes":120, "kilometers":50},
-            "workout2":{"type":"swimming", "minutes":50, "kilometers":1.5}, 
-            "workout3":{"type":"running", "minutes":20, "kilometers":4}, 
-            "workout4":{"type":"running", "minutes":40, "kilometers":7},
-            "workout5":{"type":"swimming", "minutes":30, "kilometers":1} 
-           }
-}
