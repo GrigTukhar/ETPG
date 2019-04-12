@@ -1,12 +1,38 @@
 
+
 {
   "workouts":{
-    "workout1":{"type":"cycling", "minutes":120, "kilometers":50},
-    "workout2":{"type":"swimming", "minutes":50, "kilometers":1.5},
-    "workout3":{"type":"running", "minutes":20, "kilometers":4},
-    "workout4":{"type":"running", "minutes":40, "kilometers":7},
-    "workout5":{"type":"swimming", "minutes":30, "kilometers":1}
+    "workout1": {
+      "type":"cycling",
+      "minutes":120,
+      "distance":50,
+      "load": "medium"
     },
+    "workout2":{
+      "type":"swimming",
+      "minutes":50,
+      "distance":1.5,
+      "load": "medium"
+    },
+    "workout3":{
+      "type":"running",
+      "minutes":20,
+      "distance":4,
+      "load": "hard"
+    },
+    "workout4":{
+      "type":"running",
+      "minutes":40,
+      "distance":7,
+      "load": "hard"
+    },
+    "workout5":{
+      "type":"swimming",
+      "minutes":30,
+      "distance":1,
+      "load": "easy"
+    }
+  },
   "schedule":{
     "week1":{},
     "week2":{},
@@ -20,12 +46,23 @@
       "day5":{},
       "day6":{},
       "day7":{
-        "morning" : {"type":"run", "minutes":80, "kilometers":10},
+        "morning" : {
+          "type":"run",
+          "minutes":80,
+          "distance":10,
+          "load": "medium"
+        },
         "lunch" : -1,
-        "day" : {"type":"swimming", "minutes":60, "kilometers":2},
-        "evening" : {"type":"cycling", "minutes":120, "kilometers":50}
+        "day" : {
+          "predefinedworkout": "workout2"
+        },
+        "evening" : {
+          "type":"cycling",
+          "minutes":120,
+          "distance":50,
+          "load": "easy"
         }
       }
-
     }
   }
+ }
