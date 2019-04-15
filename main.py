@@ -29,7 +29,7 @@ def currDay(schedule,day,preworkouts):
 def saveWorkouts(workouts):
     if workouts==0:
         file = open("current_workouts.json", "w")
-        file.write("No workouts set for today")
+        file.write('{"info": "No workouts set for today"}')
         file.close()
     else:
         file = open("current_workouts.json", "w")
