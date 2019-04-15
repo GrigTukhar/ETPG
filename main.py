@@ -4,6 +4,8 @@ def loadData(week,day):
     with open('main.json') as data_file:
         data = json.load(data_file)
     schedule = data["schedule"][week][day]
+    if len(schedule.keys())== 0:
+        return(0)
     return(schedule)
 
 def loadPredef():
@@ -13,6 +15,8 @@ def loadPredef():
     return(preworkouts)
 
 def currDay(schedule,day,preworkouts):
+    if schedule == 0:
+        return 0
     curr_work = {day: {}}
     for key in schedule:
         if (schedule[key] != -1 and "predefinedworkout" in schedule[key].keys()):
@@ -23,16 +27,24 @@ def currDay(schedule,day,preworkouts):
     return curr_work
 
 def saveWorkouts(workouts):
-    file = open("current_workouts.json", "w")
-    file.write(json.dumps(workouts))
-    file.close()
+    if workouts==0:
+        file = open("current_workouts.json", "w")
+        file.write("No workouts set for today")
+        file.close()
+    else:
+        file = open("current_workouts.json", "w")
+        file.write(json.dumps(workouts))
+        file.close()
 
 def printWorkouts(curr_work,day):
-    for key in curr_work[day]:
-        if curr_work[day][key]== -1:
-            print(key, ":", "no excerisize for this time of day")
-        else:
-            print(key, ":",curr_work[day][key])
+    if curr_work==0:
+        print("No workouts set for today")
+    else:
+        for key in curr_work[day]:
+            if curr_work[day][key]== -1:
+                print(key, ":", "no excerisize for this time of day")
+            else:
+                print(key, ":",curr_work[day][key])
 
 
 def main():
