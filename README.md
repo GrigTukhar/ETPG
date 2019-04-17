@@ -50,3 +50,9 @@ USER STORY<br>
 -----------<br>
 
 As an athlete I can check out my workouts within my schedule. I can choose the specific week and day in my schedule to check if there are any workouts during 4 different time of days. These workouts are either predifined or custom (made by the coach).
+
+As the coach, I can edit the athletes schedule anytime I want, by adding or removing weeks and workouts, for the athlete to use.
+
+As the coach, I can add or remove predifined workouts to be used in the schedule.
+
+As the athlete, I can give feedback to the coach about a specific workout that includes, week number, day number, time of day, if it is completed or not, and some text about personal opinion about the workout.
