@@ -1,12 +1,17 @@
 import json
 
-def loadData(week,day):
+days = ("day1", "day2", "day3", "day4", "day5", "day6", "day7")
+
+def loadData():
     with open('main.json') as data_file:
-        data = json.load(data_file)
-    schedule = data["schedule"][week][day]
-    if len(schedule.keys())== 0:
+        schedule = json.load(data_file)
+    return schedule
+
+def loadDataForWeekAndDay(full_schedule, week,day):
+    week_schedule = full_schedule["schedule"][week][day]
+    if len(week_schedule.keys())== 0:
         return(0)
-    return(schedule)
+    return(week_schedule)
 
 def loadPredef():
     with open('main.json') as data_file:
@@ -49,20 +54,22 @@ def printWorkouts(curr_work,day):
 
 def main():
     week = "x"
-    while week !="week1" and week !="week2" and week !="week3" and week !="week4" and week !="week5":
-        week = input(str("Input week (week1, week2, week 3, week 4, or week5): "))
-        if week !="week1" and week !="week2" and week !="week3" and week !="week4" and week !="week5":
+    full_schedule = loadData()
+
+    while week not in full_schedule["schedule"].keys():
+        week = input(str("Input week (" + (", ").join(full_schedule["schedule"].keys()) + "): "))
+        if week not in full_schedule["schedule"].keys():
             print("That does not exist, try again")
         else:
             day ="x"
-            while day!="day1" and day!="day2" and day!="day3" and day!="day4" and day!="day5" and day!="day6" and day!="day7":
-                day = input(str("Input day (day1, day 2, day 3, day4, day5, day6, or day7): "))
-                if day!="day1" and day!="day2" and day!="day3" and day!="day4" and day!="day5" and day!="day6" and day!="day7":
+            while day not in days:
+                day = input(str("Input day (" + (", ").join(days) + "): "))
+                if day not in days:
                     print("That does not exist, try again")
                 else:
-                    schedule = loadData(week,day)
+                    week_schedule =loadDataForWeekAndDay(full_schedule,week,day)
                     preworkouts = loadPredef()
-                    current_workout = currDay(schedule,day,preworkouts)
+                    current_workout = currDay(week_schedule,day,preworkouts)
                     saveWorkouts(current_workout)
                     printWorkouts(current_workout,day)
 main()
