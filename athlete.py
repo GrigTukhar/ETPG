@@ -12,7 +12,7 @@ def loadData():
 
 def loadDataForWeekAndDay(full_schedule, week,day):
     week_schedule = full_schedule["schedule"][week][day]
-    if len(week_schedule.keys())== 0:
+    if (week_schedule["morning"]== -1) and (week_schedule["lunch"]== -1) and (week_schedule["day"]== -1) and (week_schedule["evening"]== -1):
         return(0)
     return(week_schedule)
 
@@ -74,7 +74,7 @@ def feedback(curr_work,day,week, preFeedback):
                     if time_answer not in times:
                         print("That does not exist, try again")
                     else:
-                        if curr_work[day][time_answer]== -1:
+                        if curr_work[day][time_answer] == -1:
                             print("No workout for this time of day, cannot provide feedback")
                         else:
                             ifDone = "x"
