@@ -134,7 +134,7 @@ def main():
     data = loadData()
     answer = "x"
     while (answer not in answers):
-        answer = str(input("Would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
+        answer = str(input("What would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
     if (answer == "edit"):
