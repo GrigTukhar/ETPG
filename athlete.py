@@ -3,7 +3,7 @@ import time
 
 answers = ("check", "exit")
 days = ("day1", "day2", "day3", "day4", "day5", "day6", "day7")
-times =("morning", "lunch", "day", "evening")
+times = ("morning", "lunch", "day", "evening", "exit")
 
 def loadData():
     with open('main.json') as data_file:
@@ -48,15 +48,14 @@ def saveWorkouts(workouts):
         file.write(json.dumps(workouts))
         file.close()
 
-def printWorkouts(curr_work,day):
-    if curr_work==0:
-        print("No workouts set for today")
-    else:
+def printWorkouts(curr_work,week,day):
+    if curr_work!=0:
+        print("\nShowing workouts for |",week,",",day)
         for key in curr_work[day]:
             if curr_work[day][key]== -1:
                 print(key, ":", "no excerisize for this time of day")
             else:
-                print(key, ":",curr_work[day][key])
+                print(key, ":",curr_work[day][key]["type"],"for",curr_work[day][key]["minutes"],"minutes and",curr_work[day][key]["distance"],"kilometers, at a",curr_work[day][key]["load"],"load")
 
 def feedback(curr_work,day,week, preFeedback):
     answer = "x"
@@ -65,14 +64,16 @@ def feedback(curr_work,day,week, preFeedback):
     feedback_work = preFeedback
     if curr_work!=0:
         while (answer != "no"):
-            answer = input("Would you like to provide feedback for a workout? yes/no: ")
+            answer = input("\nWould you like to provide feedback for a workout? yes/no: ")
             if (answer != "yes" and answer != "no"):
                 print("Invalid input, try again")
             elif(answer == "yes"):
-                while time_answer not in times:
-                    time_answer = input("Input time of day (" + (", ").join(times) + "): ")
+                while time_answer not in times or time_answer!=exit:
+                    time_answer = input("\nChoose one of the following options for " + day + " in " + week + " (" + (", ").join(times) + "): ")
                     if time_answer not in times:
                         print("That does not exist, try again")
+                    elif time_answer == "exit":
+                        return 0
                     else:
                         if curr_work[day][time_answer] == -1:
                             print("No workout for this time of day, cannot provide feedback")
@@ -90,24 +91,29 @@ def feedback(curr_work,day,week, preFeedback):
                             file = open("feedback.json", "w")
                             file.write(json.dumps(feedback_work ))
                             file.close()
+                            print("\nFeedback added for",time_answer,"during",day,"in",week)
+    else:
+        print("No workouts set for today")
 
 def main():
-    week = "x"
+
     full_schedule = loadData()
     answer = "x"
-    while (answer not in answers) or answer != "exit":
-        answer = str(input("Athlete Menu | What would you like to do with the schedule (" + (", ").join(answers) + "): "))
+    while (answer not in answers) or  answer != "exit":
+        answer = str(input("\nAthlete Menu | What would you like to do with the schedule (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
         elif(answer == "check"):
+            week = "x"
             while week not in full_schedule["schedule"].keys():
-                week = input(str("Input week (" + (", ").join(full_schedule["schedule"].keys()) + "): "))
+                week = input(str("\nInput week (" + (", ").join(full_schedule["schedule"].keys()) + "): "))
                 if week not in full_schedule["schedule"].keys():
                     print("That does not exist, try again")
                 else:
                     day ="x"
                     while day not in days:
                         day = input(str("Input day (" + (", ").join(days) + "): "))
+                        print("")
                         if day not in days:
                             print("That does not exist, try again")
                         else:
@@ -116,5 +122,5 @@ def main():
                             preFeedback = loadFeedback()
                             current_workout = currDay(week_schedule,day,preWorkouts)
                             saveWorkouts(current_workout)
-                            printWorkouts(current_workout,day)
+                            printWorkouts(current_workout,week,day)
                             feedback(current_workout,day,week,preFeedback)
