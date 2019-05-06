@@ -1,7 +1,7 @@
 import json
 import time
 
-
+answers = ("check", "exit")
 days = ("day1", "day2", "day3", "day4", "day5", "day6", "day7")
 times =("morning", "lunch", "day", "evening")
 
@@ -94,23 +94,27 @@ def feedback(curr_work,day,week, preFeedback):
 def main():
     week = "x"
     full_schedule = loadData()
-
-    while week not in full_schedule["schedule"].keys():
-        week = input(str("Input week (" + (", ").join(full_schedule["schedule"].keys()) + "): "))
-        if week not in full_schedule["schedule"].keys():
-            print("That does not exist, try again")
-        else:
-            day ="x"
-            while day not in days:
-                day = input(str("Input day (" + (", ").join(days) + "): "))
-                if day not in days:
+    answer = "x"
+    while (answer not in answers) or answer != "exit":
+        answer = str(input("Athlete Menu | What would you like to do with the schedule (" + (", ").join(answers) + "): "))
+        if (answer not in answers):
+            print("Invalid input, try again")
+        elif(answer == "check"):
+            while week not in full_schedule["schedule"].keys():
+                week = input(str("Input week (" + (", ").join(full_schedule["schedule"].keys()) + "): "))
+                if week not in full_schedule["schedule"].keys():
                     print("That does not exist, try again")
                 else:
-                    week_schedule =loadDataForWeekAndDay(full_schedule,week,day)
-                    preWorkouts = loadPredef()
-                    preFeedback = loadFeedback()
-                    current_workout = currDay(week_schedule,day,preWorkouts)
-                    saveWorkouts(current_workout)
-                    printWorkouts(current_workout,day)
-                    feedback(current_workout,day,week,preFeedback)
-main()
+                    day ="x"
+                    while day not in days:
+                        day = input(str("Input day (" + (", ").join(days) + "): "))
+                        if day not in days:
+                            print("That does not exist, try again")
+                        else:
+                            week_schedule =loadDataForWeekAndDay(full_schedule,week,day)
+                            preWorkouts = loadPredef()
+                            preFeedback = loadFeedback()
+                            current_workout = currDay(week_schedule,day,preWorkouts)
+                            saveWorkouts(current_workout)
+                            printWorkouts(current_workout,day)
+                            feedback(current_workout,day,week,preFeedback)
