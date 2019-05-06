@@ -1,7 +1,7 @@
 import json
 
 days = ("day1", "day2", "day3", "day4", "day5", "day6", "day7")
-times =("morning", "lunch", "day", "evening")
+times =("morning", "lunch", "day", "evening", "exit")
 sports = {"swimming", "cycling", "running"}
 loads = ("easy", "medium", "hard")
 answers = ("week", "workout", "exit")
@@ -49,8 +49,8 @@ def editWeek(data):
 
 def editWorkout(data,preworkouts):
     week = "x"
-    time = "x"
-    reply = "x"
+
+
     while week not in data["schedule"].keys():
         week = input(str("\nInput week (" + (", ").join(data["schedule"].keys()) + "): "))
         if week not in data["schedule"].keys():
@@ -72,86 +72,90 @@ def editWorkout(data,preworkouts):
         else:
             print(key, ":", week_schedule[key]["type"], "for", week_schedule[key]["minutes"], "minutes and",
                   week_schedule[key]["distance"], "kilometers, at a", week_schedule[key]["load"], "load")
-
-    while time not in times:
+    time = "x"
+    while (time not in times) or time !="exit":
         time =input(str("\nInput time of day (" + (", ").join(times) + "): "))
-        if time not in times:
+        if time not in times and time!="exit":
             print("That does not exist, try again")
-    if (week_schedule[time]==-1):
-        print("No workout planned for",time)
-    while (reply not in replies_workout):
-        reply = str(input("\nChoose an option to perform on this workout (" + (", ").join(replies_workout) + "): "))
-        if (reply not in replies_workout):
-            print("Invalid input, try again")
-
-    if(reply == "remove"):
-        if (week_schedule[time]==-1):
-            print("\nThe time:",time, "is already empty")
+        elif time =="exit":
+            continue
         else:
-            data["schedule"][week][day][time]=-1
-            print("\nWorkout during", time, "on", day,"in",week,"has been removed")
-
-    if(reply == "edit"):
-        ask = "x"
-        workout = "x"
-        while (ask != "yes" and ask != "no"):
-            ask = str(input("\nWould you like to add a predefined workout? yes/no: "))
-            if (ask != "yes" and ask != "no"):
-                print("Invalid input, try again")
-
-        if (ask == "yes"):
-            while (workout not in preworkouts.keys()) or workout == "test":
-                workout = input(str("\nInput premade workout, except for 'test' (" + (", ").join(preworkouts.keys()) + "): "))
-                if workout == "test":
-                    print("Cannot use test")
-                elif (workout not in preworkouts.keys()):
-                    print("That does not exist, try again")
-                else:
-                    data["schedule"][week][day][time] = {"predefinedworkout": workout}
-                    print("\nPremade workout",workout,"has been placed during",time,"on", day,"in",week)
-
-        if (ask == "no"):
-            sport = "x"
-            load = "x"
-            while (sport not in sports):
-                sport = str(input("\nChoose sport type (" + (", ").join(sports) + "): "))
-                if (sport not in sports):
+            if (week_schedule[time]==-1):
+                print("No workout planned for",time)
+            reply = "x"
+            while (reply not in replies_workout):
+                reply = str(input("\nChoose an option to perform on this workout (" + (", ").join(replies_workout) + "): "))
+                if (reply not in replies_workout):
                     print("Invalid input, try again")
 
-            isMinutesSet = False
-            while (not isMinutesSet):
-                minutes = input("Input amount of time in minutes from 0 to 240: ")
-                try:
-                    minutes = float(minutes)
-                    if (minutes > 0 and minutes <= 240):
-                        isMinutesSet = True
+                elif(reply == "remove"):
+                    if (week_schedule[time]==-1):
+                        print("\nThe time:",time, "is already empty")
                     else:
-                        print("Wrong Input: Please type a positive integer number above 0 and below 240")
-                except ValueError:
-                    print("Wrong Input: Please input a number")
+                        data["schedule"][week][day][time]=-1
+                        print("\nWorkout during", time, "on", day,"in",week,"has been removed")
 
-            isDistanceSet = False
-            while (not isDistanceSet):
-                distance = input("Input the distance in kilometers from 0 to 200: ")
-                try:
-                    distance = float(distance)
-                    if (distance > 0 and distance <= 200):
-                        isDistanceSet = True
-                    else:
-                        print("Wrong Input: Please type a positive integer number above 0 and below 200")
-                except ValueError:
-                    print("Wrong Input: Please input a number")
+                elif(reply == "edit"):
+                    ask = "x"
+                    workout = "x"
+                    while (ask != "yes" and ask != "no"):
+                        ask = str(input("\nWould you like to add a predefined workout? yes/no: "))
+                        if (ask != "yes" and ask != "no"):
+                            print("Invalid input, try again")
 
-            while (load not in loads):
-                load = str(input("Choose load (" + (", ").join(loads) + "): "))
-                if (load not in loads):
-                    print("Invalid input, try again")
-            data["schedule"][week][day][time] = {"type": sport, "minutes": minutes, "distance": distance, "load": load}
-            print("Workout created during",time,"on",day,"in",week, ":", data["schedule"][week][day][time]["type"], "for", data["schedule"][week][day][time]["minutes"], "minutes and",
-                  data["schedule"][week][day][time]["distance"], "kilometers, at a", data["schedule"][week][day][time]["load"], "load")
-    file = open("main.json", "w")
-    file.write(json.dumps(data))
-    file.close()
+                    if (ask == "yes"):
+                        while (workout not in preworkouts.keys()) or workout == "test":
+                            workout = input(str("\nInput premade workout, except for 'test' (" + (", ").join(preworkouts.keys()) + "): "))
+                            if workout == "test":
+                                print("Cannot use test")
+                            elif (workout not in preworkouts.keys()):
+                                print("That does not exist, try again")
+                            else:
+                                data["schedule"][week][day][time] = {"predefinedworkout": workout}
+                                print("\nPremade workout",workout,"has been placed during",time,"on", day,"in",week)
+
+                    if (ask == "no"):
+                        sport = "x"
+                        load = "x"
+                        while (sport not in sports):
+                            sport = str(input("\nChoose sport type (" + (", ").join(sports) + "): "))
+                            if (sport not in sports):
+                                print("Invalid input, try again")
+
+                        isMinutesSet = False
+                        while (not isMinutesSet):
+                            minutes = input("Input amount of time in minutes from 0 to 240: ")
+                            try:
+                                minutes = float(minutes)
+                                if (minutes > 0 and minutes <= 240):
+                                    isMinutesSet = True
+                                else:
+                                    print("Wrong Input: Please type a positive integer number above 0 and below 240")
+                            except ValueError:
+                                print("Wrong Input: Please input a number")
+
+                        isDistanceSet = False
+                        while (not isDistanceSet):
+                            distance = input("Input the distance in kilometers from 0 to 200: ")
+                            try:
+                                distance = float(distance)
+                                if (distance > 0 and distance <= 200):
+                                    isDistanceSet = True
+                                else:
+                                    print("Wrong Input: Please type a positive integer number above 0 and below 200")
+                            except ValueError:
+                                print("Wrong Input: Please input a number")
+
+                        while (load not in loads):
+                            load = str(input("Choose load (" + (", ").join(loads) + "): "))
+                            if (load not in loads):
+                                print("Invalid input, try again")
+                        data["schedule"][week][day][time] = {"type": sport, "minutes": minutes, "distance": distance, "load": load}
+                        print("Workout created during",time,"on",day,"in",week, ":", data["schedule"][week][day][time]["type"], "for", data["schedule"][week][day][time]["minutes"], "minutes and",
+                              data["schedule"][week][day][time]["distance"], "kilometers, at a", data["schedule"][week][day][time]["load"], "load")
+                file = open("main.json", "w")
+                file.write(json.dumps(data))
+                file.close()
 
 def main():
     answer = "x"
@@ -166,6 +170,4 @@ def main():
             data = loadData()
             preworkouts = loadPredef()
             editWorkout(data,preworkouts)
-
-
 
