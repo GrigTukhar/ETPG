@@ -111,7 +111,7 @@ def editWorkout(data,preworkouts):
 
             isMinutesSet = False
             while (not isMinutesSet):
-                minutes = input("Input amount of time in minutes from 0 to 240: : ")
+                minutes = input("Input amount of time in minutes from 0 to 240: ")
                 try:
                     minutes = float(minutes)
                     if (minutes > 0 and minutes <= 240):
@@ -148,7 +148,7 @@ def main():
     preworkouts = loadPredef()
     answer = "x"
     while (answer not in answers) or answer !="exit":
-        answer = str(input("What would you like to edit in the schedule (" + (", ").join(answers) + "): "))
+        answer = str(input("Coach Menu | What would you like to edit in the schedule (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
         elif (answer=="week"):
@@ -156,4 +156,3 @@ def main():
         elif (answer=="workout"):
             editWorkout(data,preworkouts)
 
-main()
