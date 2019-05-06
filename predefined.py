@@ -133,30 +133,28 @@ def main():
     full_predefined = loadPredef()
     data = loadData()
     answer = "x"
-    while (answer not in answers):
-        answer = str(input("What would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
+    while (answer not in answers) or answer !="exit":
+        answer = str(input("Predefined Menu | What would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
-    if (answer == "edit"):
-        while (workout not in full_predefined.keys()) or workout=="test":
-            workout = input(str("Input workout to edit except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
-            if workout == "test":
-                print ("Cannot edit test")
-            elif (workout not in full_predefined.keys()):
-                print("That does not exist, try again")
-            else:
-                editPredef(full_predefined,workout,data)
-    elif (answer == "add"):
-        addPredef(full_predefined,data)
-    elif (answer == "remove"):
-        while (workout not in full_predefined.keys()) or workout == "test":
-            workout = input(
-                str("Input workout to delete except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
-            if workout == "test":
-                print("Cannot delete test")
-            elif (workout not in full_predefined.keys()):
-                print("That does not exist, try again")
-            else:
-                removePredef(workout,data)
-
-main()
+        elif (answer == "edit"):
+            while (workout not in full_predefined.keys()) or workout=="test":
+                workout = input(str("Input workout to edit except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
+                if workout == "test":
+                    print ("Cannot edit test")
+                elif (workout not in full_predefined.keys()):
+                    print("That does not exist, try again")
+                else:
+                    editPredef(full_predefined,workout,data)
+        elif (answer == "add"):
+            addPredef(full_predefined,data)
+        elif (answer == "remove"):
+            while (workout not in full_predefined.keys()) or workout == "test":
+                workout = input(
+                    str("Input workout to delete except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
+                if workout == "test":
+                    print("Cannot delete test")
+                elif (workout not in full_predefined.keys()):
+                    print("That does not exist, try again")
+                else:
+                    removePredef(workout,data)
