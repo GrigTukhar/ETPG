@@ -16,11 +16,13 @@ def loadPredef():
     return(preworkouts)
 
 def editPredef(preworkouts,workout,data):
-    print(workout, "=", preworkouts[workout])
+    print("\nOriginal Workout :", workout, "-", preworkouts[workout]["type"], "for",
+          preworkouts[workout]["minutes"], "minutes and",
+          preworkouts[workout]["distance"], "kilometers, at a", preworkouts[workout]["load"], "load")
     sport = "x"
     load = "x"
     while (sport not in sports):
-        sport = str(input("Choose sport type (" + (", ").join(sports) + "): "))
+        sport = str(input("\nChoose sport type (" + (", ").join(sports) + "): "))
         if (sport not in sports):
             print("Invalid input, try again")
 
@@ -57,10 +59,12 @@ def editPredef(preworkouts,workout,data):
     file = open("main.json", "w")
     file.write(json.dumps(data))
     file.close()
-    print(workout, "=", data["workouts"][workout])
+    print("\nWorkout edited :", workout, "-", data["workouts"][workout]["type"], "for",
+          data["workouts"][workout]["minutes"], "minutes and",
+          data["workouts"][workout]["distance"], "kilometers, at a", data["workouts"][workout]["load"], "load")
 
 def addPredef(preworkouts,data):
-    print("Existing workouts (" + (", ").join(preworkouts.keys()) + ") ")
+    print("\nExisting workouts (" + (", ").join(preworkouts.keys()) + ") ")
     workout = "test"
     while workout in preworkouts.keys():
         workout = input(str("Input a name that does not exist: "))
@@ -69,7 +73,7 @@ def addPredef(preworkouts,data):
     sport = "x"
     load = "x"
     while (sport not in sports):
-        sport = str(input("Choose sport type (" + (", ").join(sports) + "): "))
+        sport = str(input("\nChoose sport type (" + (", ").join(sports) + "): "))
         if (sport not in sports):
             print("Invalid input, try again")
 
@@ -106,40 +110,41 @@ def addPredef(preworkouts,data):
     file = open("main.json", "w")
     file.write(json.dumps(data))
     file.close()
-    print(workout, "=", data["workouts"][workout])
+    print("\nWorkout created :",workout, "-", data["workouts"][workout]["type"], "for", data["workouts"][workout]["minutes"], "minutes and",
+          data["workouts"][workout]["distance"], "kilometers, at a", data["workouts"][workout]["load"], "load")
 
 def removePredef(workout,data):
     reply = "x"
     while (reply!="no" and reply!="yes"):
-        reply = str(input("Are you sure you want to delete, if workout is in schedule it will be removed, yes/no: "))
+        reply = str(input("\nAre you sure you want to delete, if workout is in schedule it will be removed, yes/no: "))
         if (reply!="no" and reply!="yes"):
             print("Invalid input, try again")
-    if (reply == "yes"):
-        del data["workouts"][workout]
-        for week in data["schedule"]:
-            for day in data["schedule"][week]:
-                for key in data["schedule"][week][day]:
-                    if data["schedule"][week][day][key] == {"predefinedworkout": workout}:
-                        data["schedule"][week][day][key] = -1
-                        print(workout, "has been found in", week,"-",day,"-",key, "and has been removed")
+        elif (reply == "yes"):
+            del data["workouts"][workout]
+            for week in data["schedule"]:
+                for day in data["schedule"][week]:
+                    for key in data["schedule"][week][day]:
+                        if data["schedule"][week][day][key] == {"predefinedworkout": workout}:
+                            data["schedule"][week][day][key] = -1
+                            print("\nThe",workout, "has been found in", key,"in",day,"in",week, "and has been removed")
 
-        file = open("main.json", "w")
-        file.write(json.dumps(data))
-        file.close()
+            file = open("main.json", "w")
+            file.write(json.dumps(data))
+            file.close()
+            print("\nThe",workout,"has been successfully removed")
 
 def main():
-
-    workout = "x"
-    full_predefined = loadPredef()
-    data = loadData()
     answer = "x"
     while (answer not in answers) or answer !="exit":
-        answer = str(input("Predefined Menu | What would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
+        answer = str(input("\nPredefined Menu | What would you like to do with a predefined workout (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
         elif (answer == "edit"):
+            full_predefined = loadPredef()
+            data = loadData()
+            workout = "x"
             while (workout not in full_predefined.keys()) or workout=="test":
-                workout = input(str("Input workout to edit except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
+                workout = input(str("\nInput workout to edit except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
                 if workout == "test":
                     print ("Cannot edit test")
                 elif (workout not in full_predefined.keys()):
@@ -147,11 +152,16 @@ def main():
                 else:
                     editPredef(full_predefined,workout,data)
         elif (answer == "add"):
+            full_predefined = loadPredef()
+            data = loadData()
             addPredef(full_predefined,data)
         elif (answer == "remove"):
+            full_predefined = loadPredef()
+            data = loadData()
+            workout = "x"
             while (workout not in full_predefined.keys()) or workout == "test":
                 workout = input(
-                    str("Input workout to delete except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
+                    str("\nInput workout to delete except for 'test' (" + (", ").join(full_predefined.keys()) + "): "))
                 if workout == "test":
                     print("Cannot delete test")
                 elif (workout not in full_predefined.keys()):
