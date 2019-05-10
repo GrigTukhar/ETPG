@@ -1,19 +1,5 @@
 {
-  "1555668005.163559": {
-    "week5": {
-      "day7": {
-        "morning": {
-          "type": "run",
-          "minutes": 80,
-          "distance": 10,
-          "load": "medium"
-        },
-        "hasCompleted": "yes",
-        "feedback": "Felt good, not much pain"
-      }
-    }
-  },
-  "1555668036.578198": {
+  "1557474570.6937685": {
     "week5": {
       "day7": {
         "day": {
@@ -22,22 +8,39 @@
           "distance": 1.5,
           "load": "medium"
         },
-        "hasCompleted": "no",
-        "feedback": "did not have enough time"
+        "hasCompleted": "yes",
+        "feedback": "was tired",
+        "resolved": "no"
       }
     }
   },
-  "1555668062.2241988": {
+  "1557474604.9309597": {
+    "week5": {
+      "day6": {
+        "day": {
+          "type": "cycling",
+          "minutes": 120.0,
+          "distance": 40.0,
+          "load": "medium"
+        },
+        "hasCompleted": "no",
+        "feedback": "had no time",
+        "resolved": "yes"
+      }
+    }
+  },
+  "1557474834.4392674": {
     "week5": {
       "day7": {
         "evening": {
-          "type": "cycling",
-          "minutes": 120,
-          "distance": 50,
+          "type": "running",
+          "minutes": 40.0,
+          "distance": 4.0,
           "load": "easy"
         },
         "hasCompleted": "no",
-        "feedback": "I was tired"
+        "feedback": "Had no time",
+        "resolved": "no"
       }
     }
   }
