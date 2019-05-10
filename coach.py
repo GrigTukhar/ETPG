@@ -4,9 +4,10 @@ days = ("day1", "day2", "day3", "day4", "day5", "day6", "day7")
 times =("morning", "lunch", "day", "evening", "exit")
 sports = {"swimming", "cycling", "running"}
 loads = ("easy", "medium", "hard")
-answers = ("week", "workout", "exit")
+answers = ("week", "workout", "feedback", "exit")
 replies_week = ("add", "remove", "exit")
 replies_workout = ("edit", "remove", "exit")
+numbers = []
 
 def loadData():
     with open('main.json') as data_file:
@@ -19,12 +20,14 @@ def loadPredef():
     preworkouts = predata["workouts"]
     return(preworkouts)
 
-def editWeek(data):
+def loadFeedback():
+    with open('feedback.json') as data_file:
+        feedback_data = json.load(data_file)
+    return feedback_data
 
+def editWeek(data):
     reply = "x"
     print("\nCurrent weeks in schedule :(" + (", ").join(data["schedule"].keys()) + ")")
-
-
     while (reply not in replies_week) or reply!="exit":
         count = 1
         for key in data["schedule"]:
@@ -49,8 +52,6 @@ def editWeek(data):
 
 def editWorkout(data,preworkouts):
     week = "x"
-
-
     while week not in data["schedule"].keys():
         week = input(str("\nInput week (" + (", ").join(data["schedule"].keys()) + "): "))
         if week not in data["schedule"].keys():
@@ -157,10 +158,71 @@ def editWorkout(data,preworkouts):
                 file.write(json.dumps(data))
                 file.close()
 
+def checkFeedback(feedback_data):
+    print("\nFeedback Menu | Following data sent by athlete\n")
+    count = 1
+    for key in feedback_data:
+        week = list(feedback_data[key].keys())[0]
+        day = list(feedback_data[key][week].keys())[0]
+        time = list(feedback_data[key][week][day].keys())[0]
+        type = feedback_data[key][week][day][time]["type"]
+        minutes = feedback_data[key][week][day][time]["minutes"]
+        distance = feedback_data[key][week][day][time]["distance"]
+        load = feedback_data[key][week][day][time]["load"]
+        hasCompleted = feedback_data[key][week][day]["hasCompleted"]
+        feedback = feedback_data[key][week][day]["feedback"]
+        resolved = feedback_data[key][week][day]["resolved"]
+
+        if (resolved =="no"):
+            if hasCompleted =="no":
+                print(count,")","In",week,"on",day,"during the",time,"the athlete did not perform the workout of",type,"for",
+                      minutes,"minutes and",distance,"kilometers on a",load,"load")
+                print("    Feedback:",feedback)
+                numbers.append(str(count))
+            else:
+                print(count,")","In", week, "on", day, "during the", time, "the athlete performed the workout of", type, "for",
+                      minutes, "minutes and", distance, "kilometers on a", load, "load")
+                print("    Feedback:", feedback)
+                numbers.append(str(count))
+            count = count + 1
+
+        if (resolved =="yes"):
+            if hasCompleted =="no":
+                print(count,")","RESOLVED | ","In",week,"on",day,"during the",time,"the athlete did not perform the workout of",type,"for",
+                      minutes,"minutes and",distance,"kilometers on a",load,"load")
+                print("    Feedback:",feedback)
+
+            else:
+                print(count,")","RESOLVED | ","In", week, "on", day, "during the", time, "the athlete performed the workout of", type, "for",
+                      minutes, "minutes and", distance, "kilometers on a", load, "load")
+                print("    Feedback:", feedback)
+            count = count + 1
+
+    ask = "x"
+    while (ask !="yes" or ask !="no") and ask !="no" and len(numbers)!=0:
+        ask = str(input("\nWould you like to resolve a feedback (yes, no): "))
+        if (ask !="yes" and ask !="no"):
+            print("Invalid input, try again")
+        elif (ask =="yes"):
+            number = "x"
+            while (number not in numbers):
+                number = str(input("\nChoose a workout (" + (", ").join(numbers) + "): "))
+                if (number not in numbers):
+                    print("Invalid input, try again")
+            placeholder = list(feedback_data.keys())[int(number)-1]
+            week = list(feedback_data[placeholder].keys())[0]
+            day = list(feedback_data[placeholder][week].keys())[0]
+            feedback_data[placeholder][week][day]["resolved"]="yes"
+            print("Workout in",week,"on",day,"during the",time, "of",type,"for",
+                      minutes,"minutes and",distance,"kilometers on a",load,"load, has been resolved")
+            numbers.remove(number)
+            file = open("feedback.json", "w")
+            file.write(json.dumps(feedback_data))
+            file.close()
 def main():
     answer = "x"
     while (answer not in answers) or answer !="exit":
-        answer = str(input("\nCoach Menu | What would you like to edit in the schedule (" + (", ").join(answers) + "): "))
+        answer = str(input("\nCoach Menu | What would you like to check (" + (", ").join(answers) + "): "))
         if (answer not in answers):
             print("Invalid input, try again")
         elif (answer=="week"):
@@ -170,4 +232,6 @@ def main():
             data = loadData()
             preworkouts = loadPredef()
             editWorkout(data,preworkouts)
-
+        elif (answer=="feedback"):
+            feedback_data = loadFeedback()
+            checkFeedback(feedback_data)
