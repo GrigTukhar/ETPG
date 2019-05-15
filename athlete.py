@@ -88,6 +88,7 @@ def feedback(curr_work,day,week, preFeedback):
                             feedback_work[date][week][day][time_answer] = curr_work[day][time_answer]
                             feedback_work[date][week][day]["hasCompleted"] = ifDone
                             feedback_work[date][week][day]["feedback"] = text_feedback
+                            feedback_work[date][week][day]["resolved"] = "no"
                             file = open("feedback.json", "w")
                             file.write(json.dumps(feedback_work ))
                             file.close()
@@ -124,3 +125,4 @@ def main():
                             saveWorkouts(current_workout)
                             printWorkouts(current_workout,week,day)
                             feedback(current_workout,day,week,preFeedback)
+
