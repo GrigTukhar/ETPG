@@ -7,7 +7,7 @@ loads = ("easy", "medium", "hard")
 answers = ("week", "workout", "feedback", "exit")
 replies_week = ("add", "remove", "exit")
 replies_workout = ("edit", "remove", "exit")
-numbers = []
+
 
 def loadData():
     with open('main.json') as data_file:
@@ -159,6 +159,7 @@ def editWorkout(data,preworkouts):
                 file.close()
 
 def checkFeedback(feedback_data):
+    numbers = []
     print("\nFeedback Menu | Following data sent by athlete\n")
     count = 1
     for key in feedback_data:
